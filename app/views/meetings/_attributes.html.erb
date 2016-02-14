@@ -1,0 +1,71 @@
+<%= labelled_fields_for :meeting, @meeting do |f| %>
+
+    <div class="splitcontent">
+      <div class="splitcontentleft">
+        <% if @meeting.safe_attribute? 'date' %>
+            <p id="date_in_area">
+              <%= f.text_field(:date, :size => 10, :required => true) %>
+              <%= calendar_for('meeting_date') %>
+            </p>
+        <% end %>
+
+
+        <% if @meeting.safe_attribute? 'time' %>
+            <span class="clockpicker">
+              <p id="date_in_area">
+                <%= f.text_field(:time, :size => 10 , :required => true) %>
+              </p>
+            </span>
+        <% end %>
+        <% user = @project.members.map{|user| [user.name, user.id]} %>
+        <p><%= select_tag :users, options_for_select(user, @meeting.users.map(&:id)), :required => true, multiple: true %> </p>
+
+      </div>
+      <div class="splitcontentright">
+        <% if @meeting.safe_attribute? 'location' %>
+            <p><%= f.check_box :location, :required => true %> </p>
+        <% end %>
+      </div>
+    </div>
+    <% if !@meeting.new_record? %>
+        <% if @meeting.safe_attribute?('status') %>
+            <% status = [[l(:label_new), 'new'], [l(:label_completed), 'Completed']] %>
+            <p><%= f.select :status,options_for_select(status, @meeting.status), :required => true %> </p>
+        <% end %>
+        <%= content_tag 'span', :id => "meeting_meeting_minutes_and_toolbar", :style => ('display:none') do %>
+
+            <% if @meeting.safe_attribute?('meeting_minutes')%>
+                <p>
+                  <%= f.label_for_field :meeting_minutes %>
+                  <%= f.text_area :meeting_minutes,
+                                  :cols => 60,
+                                  :rows => (@meeting.meeting_minutes.blank? ? 10 : [[10, @meeting.meeting_minutes.length / 50].max, 100].min),
+                                  :accesskey => accesskey(:edit),
+                                  :class => 'wiki-edit',
+                                  :no_label => true,  :required => true %>
+                  <%= wikitoolbar_for 'meeting_meeting_minutes' %>
+                </p>
+            <% end %>
+        <% end %>
+        <script>
+          $(document).ready(function(e){
+            $('#meeting_status').on('change', function(){
+              if($(this).val() == 'Completed')
+              {
+                $('#meeting_meeting_minutes').show();
+                $('#meeting_meeting_minutes_and_toolbar').show();
+              }
+
+              else{
+                $('#meeting_meeting_minutes_and_toolbar').hide();
+                $('#meeting_meeting_minutes').hide();}
+            })
+          })
+        </script>
+    <% end %>
+    <% if @meeting.safe_attribute? 'custom_field_values' %>
+        <%#= render :partial => 'form_custom_fields' %>
+    <% end %>
+<% end %>
+
+<% include_calendar_headers_tags %>

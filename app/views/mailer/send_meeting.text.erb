@@ -1,0 +1,11 @@
+<%= @meeting.subject %>
+<%= @meeting.date %>
+<%= @meeting.time %>
+
+Participants:
+
+  <% @meetings.users.each  do |user| %>
+      - <%= user.name %>
+  <% end %>
+
+<%= textilizable(@meeting, :agenda, :only_path => false) %>

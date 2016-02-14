@@ -1,0 +1,11 @@
+# English strings go here for Rails i18n
+en:
+   label_meeting_plural: "Meetings"
+   label_new_meeting: "New meeting"
+   label_edit_meeting: "Edit meeting"
+   field_meeting_minutes: "Meeting minutes"
+   field_agenda: "Agenda"
+   field_date: "Date"
+   field_time: "Time"
+   field_status: "Status"
+   label_completed: "Completed"
