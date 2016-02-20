@@ -19,13 +19,20 @@ class Meeting < ActiveRecord::Base
     if User.current.admin?
       includes(:project)
     else
-      includes(:project).where(user_id: User.current.id)
+      includes(:project, :meeting_users).where("meeting_users.user_id= ? OR #{table_name}.user_id = ?", User.current.id, User.current.id)
     end
   }
 
+  def due_date
+    date
+  end
+
+  def start_date
+    date
+  end
 
   def check_status
-    return false if status == 'New'
+    return false if status.camelcase == 'New'
     true
   end
 

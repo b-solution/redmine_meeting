@@ -20,10 +20,10 @@ end
 
 
 Rails.application.config.to_prepare do
-  class Hooks < Redmine::Hook::ViewListener
-
-  end
-
   Project.send(:include, RedmineMeeting::Patches::ProjectPatch)
+  User.send(:include, RedmineMeeting::Patches::UserPatch)
+  QueriesHelper.send(:include, RedmineMeeting::Patches::QueriesHelperPatch)
+  Mailer.send(:include, RedmineMeeting::Patches::MailerPatch)
+  CalendarsController.send(:include, RedmineMeeting::Patches::CalendarsControllerPatch)
 end
 

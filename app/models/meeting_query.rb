@@ -45,4 +45,8 @@ class MeetingQuery < Query
         order(order_option).
         joins(joins_for_order_statement(order_option.join(',')))
   end
+
+  def meetings
+
+  end
 end

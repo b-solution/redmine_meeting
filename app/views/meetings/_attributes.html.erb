@@ -8,22 +8,22 @@
               <%= calendar_for('meeting_date') %>
             </p>
         <% end %>
+        <% if @meeting.safe_attribute? 'location' %>
+            <p><%= f.check_box :location, :required => true %> </p>
+        <% end %>
 
 
+        <% user = @project.members.map{|user| [user.name, user.id]} %>
+        <p><%= select_tag :users, options_for_select(user, @meeting.users.map(&:id)), :required => true, multiple: true %> </p>
+
+      </div>
+      <div class="splitcontentright">
         <% if @meeting.safe_attribute? 'time' %>
             <span class="clockpicker">
               <p id="date_in_area">
                 <%= f.text_field(:time, :size => 10 , :required => true) %>
               </p>
             </span>
-        <% end %>
-        <% user = @project.members.map{|user| [user.name, user.id]} %>
-        <p><%= select_tag :users, options_for_select(user, @meeting.users.map(&:id)), :required => true, multiple: true %> </p>
-
-      </div>
-      <div class="splitcontentright">
-        <% if @meeting.safe_attribute? 'location' %>
-            <p><%= f.check_box :location, :required => true %> </p>
         <% end %>
       </div>
     </div>
@@ -42,7 +42,7 @@
                                   :rows => (@meeting.meeting_minutes.blank? ? 10 : [[10, @meeting.meeting_minutes.length / 50].max, 100].min),
                                   :accesskey => accesskey(:edit),
                                   :class => 'wiki-edit',
-                                  :no_label => true,  :required => true %>
+                                  :no_label => true %>
                   <%= wikitoolbar_for 'meeting_meeting_minutes' %>
                 </p>
             <% end %>

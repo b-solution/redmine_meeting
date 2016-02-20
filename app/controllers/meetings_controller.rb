@@ -66,7 +66,7 @@ class MeetingsController < ApplicationController
       users = User.where(id: params[:users])
       @meeting.users<< users
       # TODO Send notification for all members
-      Mailer.send_meeting(@meeting, users)
+      Mailer.deliver_send_meeting(@meeting, users)
 
       flash[:notice] = "Meeting created successfully"
       redirect_back_or_default project_meetings_path(@project)
@@ -88,6 +88,8 @@ class MeetingsController < ApplicationController
     @meeting.safe_attributes= params[:meeting]
 
     if @meeting.save
+      users = User.where(id: params[:users])
+      @meeting.users= users
       flash[:notice] = "Meeting created successfully"
       redirect_back_or_default project_meetings_path(@project)
     else
