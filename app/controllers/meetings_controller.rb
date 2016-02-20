@@ -12,6 +12,8 @@ class MeetingsController < ApplicationController
   include QueriesHelper
   helper :sort
   include SortHelper
+  helper :issues
+  include IssuesHelper
 
   def index
     @query = MeetingQuery.build_from_params(params, :name => '_')
@@ -90,7 +92,7 @@ class MeetingsController < ApplicationController
     if @meeting.save
       users = User.where(id: params[:users])
       @meeting.users= users
-      flash[:notice] = "Meeting created successfully"
+      flash[:notice] = "Meeting updated successfully"
       redirect_back_or_default project_meetings_path(@project)
     else
       render :edit

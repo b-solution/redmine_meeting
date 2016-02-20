@@ -4,7 +4,7 @@ class MeetingQuery < Query
 
   self.available_columns = [
       QueryColumn.new(:subject, :sortable => "#{Meeting.table_name}.subject",:groupable => true),
-      QueryColumn.new(:location, :sortable => "#{Meeting.table_name}.location",:groupable => true),
+      QueryColumn.new(:location_online, :sortable => "#{Meeting.table_name}.location_online",:groupable => true, caption: 'location'),
       QueryColumn.new(:date, :sortable => "#{Meeting.table_name}.date",:groupable => true),
       QueryColumn.new(:time, :sortable => "#{Meeting.table_name}.time",:groupable => true),
       QueryColumn.new(:status, :sortable => "#{Meeting.table_name}.status",:groupable => true),
@@ -20,7 +20,7 @@ class MeetingQuery < Query
     add_available_filter "subject", :type => :string, :order => 0
     add_available_filter "date", :type => :string, :order => 1
     add_available_filter "time", :type => :string, :order => 2
-    add_available_filter "location", :type => :string, :order => 3
+    add_available_filter "location_online", :type => :string, :order => 3
     add_available_filter "status", :type => :string, :order => 4
 
     # add_custom_fields_filters(MeetingCustomField.where(:is_filter => true))
@@ -34,7 +34,7 @@ class MeetingQuery < Query
   end
 
   def default_columns_names
-    @default_columns_names ||= [:subject, :date, :time, :location, :status]
+    @default_columns_names ||= [:subject, :date, :time, :location_online, :status]
   end
 
   def results_scope(options={})

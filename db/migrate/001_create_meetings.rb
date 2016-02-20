@@ -15,6 +15,7 @@ class CreateMeetings < ActiveRecord::Migration
 
       t.text :agenda
       t.text :meeting_minutes
+      t.timestamps
 
 
     end

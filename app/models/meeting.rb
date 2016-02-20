@@ -12,7 +12,7 @@ class Meeting < ActiveRecord::Base
   validates_presence_of :subject, :date, :time, :status, :project_id, :user_id
   validates_presence_of :meeting_minutes, :if => :check_status
 
-  safe_attributes 'subject', 'location', 'project_id', 'user_id',
+  safe_attributes 'subject', 'location', 'location_online', 'project_id', 'user_id',
                   'time', 'status', 'date', 'agenda', 'custom_field_values', 'meeting_minutes'
 
   scope :visible, lambda {|*args|

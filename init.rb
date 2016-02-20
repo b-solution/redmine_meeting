@@ -5,7 +5,7 @@ Redmine::Plugin.register :redmine_meeting do
   version '0.0.1'
 
   project_module :redmine_meeting do
-    permission :view_meetings, :meetings => :index
+    permission :view_meetings, :meetings => [:index, :show]
     permission :create_meeting, :meetings => [:new, :create]
     permission :edit_meeting, :meetings => [:edit, :update , :destroy]
   end

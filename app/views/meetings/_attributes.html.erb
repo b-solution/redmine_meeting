@@ -10,11 +10,14 @@
         <% end %>
         <% if @meeting.safe_attribute? 'location' %>
             <p><%= f.check_box :location, :required => true %> </p>
+            <p><%= text_field_tag :meeting_location_online, @meeting.location_online,
+                                  name: 'meeting[location_online]', disabled: @meeting.location? %> </p>
         <% end %>
 
 
         <% user = @project.members.map{|user| [user.name, user.id]} %>
-        <p><%= select_tag :users, options_for_select(user, @meeting.users.map(&:id)), :required => true, multiple: true %> </p>
+        <p><label> <%= l(:field_participants) %></label>
+          <%= select_tag :users, options_for_select(user, @meeting.users.map(&:id)), :required => true, multiple: true %> </p>
 
       </div>
       <div class="splitcontentright">
@@ -47,25 +50,33 @@
                 </p>
             <% end %>
         <% end %>
-        <script>
-          $(document).ready(function(e){
-            $('#meeting_status').on('change', function(){
-              if($(this).val() == 'Completed')
-              {
-                $('#meeting_meeting_minutes').show();
-                $('#meeting_meeting_minutes_and_toolbar').show();
-              }
 
-              else{
-                $('#meeting_meeting_minutes_and_toolbar').hide();
-                $('#meeting_meeting_minutes').hide();}
-            })
-          })
-        </script>
     <% end %>
     <% if @meeting.safe_attribute? 'custom_field_values' %>
         <%#= render :partial => 'form_custom_fields' %>
     <% end %>
 <% end %>
+<script>
+  function check_minutes_meeting(){
+    if($('#meeting_status').val() == 'Completed')
+    {
+      $('#meeting_meeting_minutes').show();
+      $('#meeting_meeting_minutes_and_toolbar').show();
+    }
 
+    else{
+      $('#meeting_meeting_minutes_and_toolbar').hide();
+      $('#meeting_meeting_minutes').hide();
+    }
+  }
+  $(document).ready(function(e){
+    check_minutes_meeting();
+    $('#meeting_status').on('change', function(){
+      check_minutes_meeting();
+    })
+    $('#meeting_location').on('change', function(){
+      $('#meeting_location_online').attr('disabled', $('#meeting_location').prop('checked'))
+    })
+  })
+</script>
 <% include_calendar_headers_tags %>

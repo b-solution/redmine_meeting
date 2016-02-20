@@ -6,6 +6,8 @@ en:
    field_meeting_minutes: "Meeting minutes"
    field_agenda: "Agenda"
    field_date: "Date"
+   field_participants: "Participants"
    field_time: "Time"
    field_status: "Status"
    label_completed: "Completed"
+   field_location_online: "Location"
