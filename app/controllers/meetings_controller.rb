@@ -62,7 +62,8 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.new(project_id: @project.id,
                            status: 'New',
                            user_id: User.current.id)
-    @meeting.safe_attributes= params[:meeting]
+
+    @meeting.safe_attributes= params[:meeting].permit!
 
     if @meeting.save
       users = User.where(id: params[:users])
@@ -87,7 +88,7 @@ class MeetingsController < ApplicationController
   end
 
   def update
-    @meeting.safe_attributes= params[:meeting]
+    @meeting.safe_attributes= params[:meeting].permit!
 
     if @meeting.save
       users = User.where(id: params[:users])
