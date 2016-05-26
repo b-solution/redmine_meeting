@@ -1,0 +1,10 @@
+<% if @project.module_enabled?('redmine_meeting') %>
+<p>
+  <label for="create_meeting">Meeting</label>
+  <% if @issue.new_record? %>
+      <%= check_box_tag :create_meeting, true, false %> Create meeting
+  <% else %>
+      <%= check_box_tag :create_meeting, true, Meeting.where(issue_id: @issue.id).present? %> Create meeting
+  <% end %>
+</p>
+<% end %>

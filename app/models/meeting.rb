@@ -17,6 +17,7 @@ class Meeting < ActiveRecord::Base
                   'location_online',
                   'project_id',
                   'user_id',
+                  'issue_id',
                   'time',
                   'status',
                   'date',

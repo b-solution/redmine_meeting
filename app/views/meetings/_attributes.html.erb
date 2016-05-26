@@ -15,7 +15,7 @@
         <% end %>
 
 
-        <% user = @project.members.map{|user| [user.name, user.id]} %>
+        <% user = @project.users.map{|user| [user.name, user.id]} %>
         <p><label> <%= l(:field_participants) %></label>
           <%= select_tag :users, options_for_select(user, @meeting.users.map(&:id)), :required => true, multiple: true %> </p>
 
