@@ -8,7 +8,16 @@ Redmine::Plugin.register :redmine_meeting do
     permission :view_meetings, :meetings => [:index, :show]
     permission :create_meeting, :meetings => [:new, :create]
     permission :edit_meeting, :meetings => [:edit, :update , :destroy]
+
+    permission :join_conference, :meetings => :join_conference
+    permission :start_conference, {:meetings => [:start_conference, :delete_conference]}
+
   end
+
+  settings :default => {'bbb_server' => '', 'bbb_salt' => '', 'bbb_timeout' => '3',
+                        'meeting_timezone' => 'Paris', 'bbb_recording' => ''},
+           :partial => 'meeting_settings/settings'
+
 
   menu :project_menu, :meetings,
        {:controller => 'meetings', :action => 'index'},
@@ -59,6 +68,7 @@ Rails.application.config.to_prepare do
   end
 
   Project.send(:include, RedmineMeeting::Patches::ProjectPatch)
+  ProjectsHelper.send(:include, RedmineMeeting::Patches::ProjectsHelperPatch)
   User.send(:include, RedmineMeeting::Patches::UserPatch)
   QueriesHelper.send(:include, RedmineMeeting::Patches::QueriesHelperPatch)
   Mailer.send(:include, RedmineMeeting::Patches::MailerPatch)

@@ -14,6 +14,10 @@
                                   name: 'meeting[location_online]', disabled: @meeting.location? %> </p>
         <% end %>
 
+        <% if @meeting.safe_attribute? 'use_bbb' %>
+            <p>              <%= f.check_box :use_bbb, :required => true %>  </p>
+        <% end %>
+
 
         <% user = @project.users.map{|user| [user.name, user.id]} %>
         <p><label> <%= l(:field_participants) %></label>

@@ -19,6 +19,7 @@ class Meeting < ActiveRecord::Base
                   'user_id',
                   'issue_id',
                   'time',
+                  'use_bbb',
                   'status',
                   'date',
                   'agenda',

@@ -1,0 +1,4 @@
+<h3><%= l(:label_meeting_plural) %></h3>
+<% if User.current.allowed_to?(:join_conference, @project) || User.current.allowed_to?(:start_conference, @project) %>
+  <%= render_sidebar_conference %>
+<% end %>

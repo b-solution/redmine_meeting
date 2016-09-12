@@ -32,3 +32,10 @@
       </div>
   <% end %>
 </div>
+
+<% if @meeting.use_bbb %>
+<% content_for :sidebar do %>
+    <%= javascript_include_tag 'redmine_meetings.js' , plugin: 'redmine_meeting' %>
+    <%= render :partial => 'meetings/sidebar' %>
+<% end %>
+<% end %>
