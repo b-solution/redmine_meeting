@@ -98,7 +98,6 @@ module MeetingsHelper
     end
     return output
   end
-
   
   def link_to_meeting(meeting, options={})
     subject = truncate(meeting.subject, :length => 60)

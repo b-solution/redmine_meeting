@@ -3,7 +3,7 @@ class MeetingsController < ApplicationController
 
   before_filter :find_project_by_project_id
   before_filter :authorize
-  before_filter :get_meeting, only: [:edit, :update, :destroy, :show]
+  before_filter :get_meeting, only: [:edit, :update, :destroy, :show, :start_conference, :join_conference, :delete_conference]
 
 
   helper :custom_fields
@@ -16,12 +16,15 @@ class MeetingsController < ApplicationController
   include IssuesHelper
 
 
+  require 'digest/sha1'
+
+
   require 'open-uri'
   require 'openssl'
   require 'base64'
   require 'rexml/document'
   require "tzinfo"
-  # require 'ri_cal'
+  require 'ri_cal'
 
   def index
     @query = MeetingQuery.build_from_params(params, :name => '_')
@@ -167,7 +170,7 @@ class MeetingsController < ApplicationController
     if doc.root.elements['returncode'].text == "FAILED"
       #If not, we created it...
       if User.current.allowed_to?(:start_conference, @project)
-        bridge = "77777" + @project.id.to_s
+        bridge = "77777" + @project.id.to_s + @meeting.id.to_s
         bridge = bridge[-5,5]
         s = Setting.plugin_redmine_meeting['bbb_initpres']
         loadPres = ""
@@ -178,7 +181,7 @@ class MeetingsController < ApplicationController
         if params[:record]
           record = "true"
         end
-        data = callApi(server, "create","name=" + CGI.escape(@project.name) + "&meetingID=" + "#{@project.identifier}#{@meeting.try(:id)}" + "&attendeePW=" + attendeePW + "&moderatorPW=" + moderatorPW + "&logoutURL=" + back_url + "&voiceBridge=" + bridge + "&record=" + record, true, loadPres)
+        data = callApi(server, "create","name=" + CGI.escape("#{@project.name} # #{@meeting.try(:subject)}") + "&meetingID=" + "#{@project.identifier}#{@meeting.try(:id)}" + "&attendeePW=" + attendeePW + "&moderatorPW=" + moderatorPW + "&logoutURL=" + back_url + "&voiceBridge=" + bridge + "&record=" + record, true, loadPres)
         ok_to_join = true
       end
     else

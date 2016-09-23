@@ -11,7 +11,8 @@ Redmine::Plugin.register :redmine_meeting do
 
     permission :join_conference, :meetings => :join_conference
     permission :start_conference, {:meetings => [:start_conference, :delete_conference]}
-
+    permission :conference_moderator, {}
+    permission :view_recorded_conference, {}
   end
 
   settings :default => {'bbb_server' => '', 'bbb_salt' => '', 'bbb_timeout' => '3',
