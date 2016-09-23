@@ -24,7 +24,7 @@ class MeetingsController < ApplicationController
   require 'base64'
   require 'rexml/document'
   require "tzinfo"
-  require 'ri_cal'
+  # require 'ri_cal'
 
   def index
     @query = MeetingQuery.build_from_params(params, :name => '_')
