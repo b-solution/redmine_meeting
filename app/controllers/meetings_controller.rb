@@ -48,7 +48,7 @@ class MeetingsController < ApplicationController
         else
           @limit = per_page_option
       end
-      scope = @query.results_scope(:order => sort_clause)
+      scope = @query.results_scope(:order => sort_clause, project_id: @project.try(:id))
       @entry_count = scope.count
       @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
       @meetings = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).all
