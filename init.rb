@@ -1,6 +1,6 @@
 Redmine::Plugin.register :redmine_meeting do
   name 'Redmine Meeting plugin'
-  author 'Ljupco Vangelski'
+  author 'ISPEHE'
   description 'This is a plugin for Redmine'
   version '0.1.1'
 
