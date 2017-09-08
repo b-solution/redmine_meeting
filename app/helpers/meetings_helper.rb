@@ -80,7 +80,9 @@ module MeetingsHelper
                 playback_url = "/" + playback_url
               end
               if !Setting.plugin_redmine_meeting['bbb_ip'].empty?
-                playback_url = Setting.plugin_redmine_meeting['bbb_server'] + playback_url[Setting.plugin_redmine_meeting['bbb_ip'].length..-1]
+             
+                playback_url = Setting.plugin_redmine_meeting['bbb_server'] + playback_url[(Setting.plugin_redmine_meeting['bbb_ip'].length+1)..-1]
+
               end
               output << ("&nbsp;&nbsp;- <a href='#{playback_url}' target='" + (Setting.plugin_redmine_meeting['bbb_popup'] != '1' ? '_self' : '_blank') + "'>"+ format_time(dataFormated) + "</a>").html_safe
               if User.current.allowed_to?(:start_conference, @project)

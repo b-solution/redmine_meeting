@@ -5,7 +5,7 @@
         <tr>
 
           <% query.inline_columns.each do |column| %>
-              <%= column_header(column) %>
+              <%= column_header(query, column) %>
           <% end %>
           <th></th>
         </tr>
